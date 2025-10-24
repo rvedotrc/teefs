@@ -1,0 +1,25 @@
+{
+  "name": "teefs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.4",
+  "type": "module",
+  "dependencies": {
+    "@blaahaj/json": "^1.0.1",
+    "effect": "^3.18.4",
+    "smee-client": "^4.4.1",
+    "ts-node": "^10.9.2",
+    "write-file-atomic": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.9.1",
+    "@types/write-file-atomic": "^4.0.3"
+  }
+}
