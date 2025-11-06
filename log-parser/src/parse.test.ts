@@ -1,7 +1,6 @@
 import assert from "node:assert";
 import * as t from "node:test";
-import { analyseEximMainLogLine, analyseTimestampedText } from "./index.js";
-import type { JSONObject, JSONValue } from "@blaahaj/json";
+import { analyseEximMainLogLine, analyseTimestampedText } from "./parse.js";
 
 t.suite("eximLogProcessing", () => {
   t.it("recognises timestamped lines", () => {

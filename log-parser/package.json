@@ -1,12 +1,13 @@
 {
-  "name": "@blaahaj/teefs-mail-tests",
+  "name": "@blaahaj/teefs-log-parser",
   "version": "1.0.0",
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "test": ":"
+    "test": "node dist/parse.test.js",
+    "test:watch": "node --watch dist/parse.test.js"
   },
   "type": "module",
   "keywords": [],
