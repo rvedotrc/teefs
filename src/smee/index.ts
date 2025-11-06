@@ -18,7 +18,7 @@ export const jsonParsingClient = async <T extends JSONValue>(opts: {
 }) => {
   const client = new SmeeClient({
     source: opts.channel,
-    target: "https://bogus.example.com/",
+    target: "https://unused.example.com/",
     forward: false,
   });
 

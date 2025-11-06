@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
+    "create-server": "./with-hcloud node dist/createMailServer.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

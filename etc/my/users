@@ -1,0 +1,3 @@
+# generate bcrypt password (to stdout)
+# echo -n password | htpasswd -i -n -B username
+bob:$2y$05$p/FYLUZPzHSHgkzUfVgrh.QNw1DgurpP132XQPycibgsu4eb9REv2

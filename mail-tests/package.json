@@ -1,0 +1,29 @@
+{
+  "name": "mail-tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "test": "node dist/index.js",
+    "test:eximLogProcessing": "node dist/eximLogProcessing/index.test.js",
+    "test:eximLogProcessing:watch": "node --watch dist/eximLogProcessing/index.test.js"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.4",
+  "devDependencies": {
+    "@types/node": "^24.9.1",
+    "@types/punycode": "^2.1.4",
+    "@types/split2": "^4.2.3",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "punycode": "^2.3.1",
+    "split2": "^4.2.0",
+    "typed-regex": "^0.0.8"
+  }
+}

@@ -1,0 +1,54 @@
+#cloud-config
+---
+timezone: Etc/UTC
+package_reboot_if_required: true
+package_update: true
+package_upgrade: true
+packages:
+  - exim4-daemon-light
+  - neomutt
+  - procmail
+  - tmux
+  - zsh
+  - kitty-terminfo
+
+users:
+  - name: archivist
+  - name: rachel
+    shell: /usr/bin/zsh
+    sudo: "ALL=(ALL) NOPASSWD:ALL"
+
+write_files:
+  - path: /etc/exim4/exim4.conf
+    owner: root:root
+    permissions: "0644"
+    encoding: gzip+base64
+    content: BASE64_GZIPPED_EXIM_CONFIG
+  - path: /home/rachel/.zshrc
+    owner: rachel:rachel
+    content: |
+      export EDITOR=vim
+      export ASDF_DATA_DIR=$HOME/.asdf
+      export PATH=$ASDF_DATA_DIR/shims:$PATH
+    defer: true
+
+phone_home:
+  post:
+    - pub_key_rsa
+    - pub_key_ecdsa
+    - pub_key_ed25519
+    - instance_id
+    - hostname
+    - fqdn
+  tries: 5
+  url: PHONE_HOME_URL
+
+runcmd:
+  - install -m 0700 -o rachel -g rachel -d ~rachel/.ssh
+  - install -m 0600 -o rachel -g rachel ~root/.ssh/authorized_keys ~rachel/.ssh/authorized_keys
+  - curl --location -o asdf-v0.18.0-linux-arm64.tar.gz https://github.com/asdf-vm/asdf/releases/download/v0.18.0/asdf-v0.18.0-linux-arm64.tar.gz
+  - tar -zxvf asdf-v0.18.0-linux-arm64.tar.gz
+  - install ./asdf /usr/local/bin
+  - rm asdf-v0.18.0-linux-arm64.tar.gz asdf
+  - sudo -u rachel -i asdf plugin add nodejs
+  - sudo -u rachel -i sh -c "mkdir -p seed && cd seed && asdf set nodejs 24.10.0 && asdf install && node --version && cd .. && rm -rf seed"
