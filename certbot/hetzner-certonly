@@ -1,0 +1,8 @@
+#!/bin/sh
+exec ./certbot --verbose --non-interactive \
+    certonly \
+    --manual \
+    --preferred-challenges dns \
+    --manual-auth-hook "./with-hcloud ./manual-auth-hook" \
+    --manual-cleanup-hook "./with-hcloud ./manual-cleanup-hook" \
+    --domains "$@"

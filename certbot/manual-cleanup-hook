@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -eu -o pipefail
+
+: "$CERTBOT_AUTH_OUTPUT"
+
+zone=$( echo "$CERTBOT_AUTH_OUTPUT" | jq -r .zone )
+subdomain=$( echo "$CERTBOT_AUTH_OUTPUT" | jq -r .subdomain )
+
+[ -n "$zone" ]
+[ -n "$subdomain" ]
+
+echo "Removing $zone $subdomain txt" > /dev/tty
+
+hcloud zone rrset remove-records "$zone" "$subdomain" txt \
+    --quiet \
+    --record "\"$CERTBOT_VALIDATION\""

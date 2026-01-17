@@ -1,0 +1,7 @@
+#!/bin/sh
+mkdir -p var
+exec certbot \
+    --config-dir=$PWD/var/config \
+    --work-dir=$PWD/var/work \
+    --logs-dir=$PWD/var/logs \
+    "$@"

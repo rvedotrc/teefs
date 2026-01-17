@@ -1,0 +1,50 @@
+#!/bin/bash
+
+set -eu -o pipefail
+
+: "$CERTBOT_DOMAIN"
+: "$CERTBOT_VALIDATION"
+
+dns_name="_acme-challenge.$CERTBOT_DOMAIN"
+
+zone_list=$( hcloud zone list --output json )
+
+matching_zone=$( echo "$zone_list" | jq --from-file findContainingZone.jq --arg dns_name "$dns_name" )
+
+if [ -z "$matching_zone" ] ; then
+    echo "No zone found covering $CERTBOT_DOMAIN" >&2
+    exit 1
+fi
+
+zone=$( echo "$matching_zone" | jq -r .zone.name )
+subdomain=$( echo "$matching_zone" | jq -r .subdomain )
+nameservers=$( echo "$matching_zone" | jq -r '.zone.authoritative_nameservers.assigned[]' )
+
+[ -n "$zone" ]
+[ -n "$subdomain" ]
+[ -n "$nameservers" ]
+
+# Used by the cleanup hook:
+jq \
+    --null-input \
+    --compact-output \
+    --monochrome-output \
+    --arg zone "$zone" \
+    --arg subdomain "$subdomain" \
+    '$ARGS.named'
+
+echo "Adding $zone $subdomain txt" > /dev/tty
+
+# Unsure if --ttl is needed
+hcloud zone rrset add-records "$zone" "$subdomain" txt \
+    --quiet \
+    --ttl 60 \
+    --record "\"$CERTBOT_VALIDATION\""
+
+for NS in $nameservers ; do
+    echo Checking $NS >/dev/tty
+    until dig +short @$NS txt $dns_name | grep -q ^ ; do sleep 1 ; done
+done
+
+echo "Applying fudge factor..." >/dev/tty
+sleep 10
