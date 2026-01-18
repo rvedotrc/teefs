@@ -6,8 +6,9 @@
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "test": "node dist/parse.test.js",
-    "test:watch": "node --watch dist/parse.test.js"
+    "start": "node dist/parseStdin.js",
+    "test": "node --test 'dist/*.test.js'",
+    "test:watch": "node --watch --test 'dist/*.test.js'"
   },
   "type": "module",
   "keywords": [],
@@ -24,5 +25,8 @@
     "punycode": "^2.3.1",
     "split2": "^4.2.0",
     "typed-regex": "^0.0.8"
+  },
+  "exports": {
+    ".": "./dist/index.js"
   }
 }

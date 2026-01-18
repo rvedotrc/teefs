@@ -1,7 +1,7 @@
 import { Transform } from "node:stream";
 import { pipeline } from "node:stream/promises";
 import split2 from "split2";
-import { analyseEximMainLogLine } from "./parse.js";
+import { analyseEximMainLogLine } from "./analyseEximMainLogLine.js";
 
 await pipeline(
   process.stdin,
