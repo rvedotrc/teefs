@@ -1,0 +1,3 @@
+mailer-daemon       admin@maildir.localdomain
+postmaster          admin@maildir.localdomain
+*                   local@maildir.localdomain

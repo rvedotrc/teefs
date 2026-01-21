@@ -1,0 +1,19 @@
+patreon-20140905:        :fail:No such mailbox
+15201949667886c14c-2:    :fail:No such mailbox
+15203028626910b518-2:    :fail:No such mailbox
+15202770192b5b89cb-2:    :fail:No such mailbox
+bron:                    :fail:No such mailbox
+accounts:                :fail:No such mailbox
+finance:                 :fail:No such mailbox
+u003cgit:                :fail:No such mailbox
+jenny:                   :fail:No such mailbox
+fb20200113:              :fail:No such mailbox
+julie:                   :fail:No such mailbox
+amaryllis:               :fail:No such mailbox
+cern-20241201:           :fail:No such mailbox
+sales:                   :fail:No such mailbox
+crawleyg:                :fail:No such mailbox
+
+git:                     :fail:Gone.  Please refer to https://github.com/rvedotrc/
+
+*:                       rve/main@maildir.localdomain

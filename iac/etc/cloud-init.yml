@@ -13,17 +13,14 @@ packages:
   - kitty-terminfo
 
 users:
+  - name: blocker
+    sudo: "ALL=(ALL) NOPASSWD:ALL"
   - name: archivist
   - name: rachel
     shell: /usr/bin/zsh
     sudo: "ALL=(ALL) NOPASSWD:ALL"
 
 write_files:
-  - path: /etc/exim4/exim4.conf
-    owner: root:root
-    permissions: "0644"
-    encoding: gzip+base64
-    content: BASE64_GZIPPED_EXIM_CONFIG
   - path: /home/rachel/.zshrc
     owner: rachel:rachel
     content: |
@@ -31,6 +28,19 @@ write_files:
       export ASDF_DATA_DIR=$HOME/.asdf
       export PATH=$ASDF_DATA_DIR/shims:$PATH
     defer: true
+
+  - path: /root/my.tar.gz
+    owner: root:root
+    permissions: "0600"
+    encoding: base64
+    content: EXIM_MY_TAR
+    # defer: true
+
+  - path: /etc/ssh/sshd_config.d/teefs-port.conf
+    owner: root:root
+    permissions: "0644"
+    content: "Port 2224\n# Port 22\n"
+    # defer: true
 
 phone_home:
   post:
@@ -44,11 +54,31 @@ phone_home:
   url: PHONE_HOME_URL
 
 runcmd:
-  - install -m 0700 -o rachel -g rachel -d ~rachel/.ssh
-  - install -m 0600 -o rachel -g rachel ~root/.ssh/authorized_keys ~rachel/.ssh/authorized_keys
-  - curl --location -o asdf-v0.18.0-linux-arm64.tar.gz https://github.com/asdf-vm/asdf/releases/download/v0.18.0/asdf-v0.18.0-linux-arm64.tar.gz
-  - tar -zxvf asdf-v0.18.0-linux-arm64.tar.gz
-  - install ./asdf /usr/local/bin
-  - rm asdf-v0.18.0-linux-arm64.tar.gz asdf
-  - sudo -u rachel -i asdf plugin add nodejs
-  - sudo -u rachel -i sh -c "mkdir -p seed && cd seed && asdf set nodejs 24.10.0 && asdf install && node --version && cd .. && rm -rf seed"
+  - |
+    set -eux
+
+    # Ensure sshd notices the port change
+    systemctl daemon-reload
+    systemctl restart ssh.socket
+
+    install -m 0700 -o rachel -g rachel -d ~rachel/.ssh
+    install -m 0600 -o rachel -g rachel ~root/.ssh/authorized_keys ~rachel/.ssh/authorized_keys
+
+    # Install asdf
+    curl --location -o asdf-v0.18.0-linux-arm64.tar.gz https://github.com/asdf-vm/asdf/releases/download/v0.18.0/asdf-v0.18.0-linux-arm64.tar.gz
+    tar -zxf asdf-v0.18.0-linux-arm64.tar.gz
+    install ./asdf /usr/local/bin
+    rm asdf-v0.18.0-linux-arm64.tar.gz asdf
+
+    # Install node
+    sudo -u rachel -i asdf plugin add nodejs
+    sudo -u rachel -i zsh -i -c "mkdir -p seed && cd seed && asdf set nodejs 24.10.0 && asdf install && node --version && cd .. && rm -rf seed"
+
+    # Unpack exim config
+    tar -zxf /root/my.tar.gz
+    chown -R root:Debian-exim my
+    find my -type d -exec chmod 0755 "{}" ";"
+    find my -type f -exec chmod 0640 "{}" ";"
+    rsync -av --delete ./my/ /etc/exim4/my/
+    rm -rf my.tar.gz my
+    ln -s /etc/exim4/my/exim4.conf /etc/exim4/exim4.conf

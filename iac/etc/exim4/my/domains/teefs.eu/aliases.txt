@@ -1,0 +1,4 @@
+postmaster          teefs/admin@maildir.localdomain
+hostmaster          teefs/admin@maildir.localdomain
+security            teefs/admin@maildir.localdomain
+abuse               teefs/admin@maildir.localdomain

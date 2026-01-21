@@ -1,4 +1,4 @@
-import * as models from "./hetznerModels.js";
+import * as models from "./model/index.js";
 
 export const cliMap = {
   // certificate        Manage Certificates
@@ -17,5 +17,6 @@ export const cliMap = {
   "server-type": "ServerType",
   //   ssh-key            Manage SSH Keys
   volume: "Volume",
-  //   zone               [experimental] Manage DNS Zones and Zone RRSets (records)
+  zone: "Zone",
+  "zone rrset": "RRSet",
 } as Record<string, keyof typeof models>;

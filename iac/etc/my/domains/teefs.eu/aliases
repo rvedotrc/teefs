@@ -1,8 +1,0 @@
-postmaster          abc@maildir.localdomain
-abuse               abc/def@maildir.localdomain
-^foo-\\w+\$           foo@maildir.localdomain
-
-# Perhaps a bad idea, since it encourages use of the today-pattern without persisting.
-# Only useful for one-shot uses.
-# Also, it's rather hard to read :-/
-"^(?:\\\\w+-)+${run{/usr/bin/date +%Y%m%d}{${substr{-1}{$value}}}}\\$"        today@maildir.localdomain

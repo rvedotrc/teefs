@@ -13,10 +13,14 @@ const addToKnownHosts = async (knownHostsFile: string, entries: string[]) => {
 };
 
 export const addNewServerToKnownHosts = async (
-  publicIPv4: string,
-  publicKeys: string[]
+  hostname: string,
+  port: number,
+  publicKeys: string[],
 ) =>
   addToKnownHosts(
     join(process.env.HOME!, ".ssh", "known_hosts"),
-    publicKeys.map((key) => `${publicIPv4} ${key.trim()}`)
+    publicKeys.map(
+      (key) =>
+        `${port === 22 ? hostname : `[${hostname}]:${port}`} ${key.trim()}`,
+    ),
   );

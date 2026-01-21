@@ -1,0 +1,5 @@
+postmaster          blaahaj/admin@maildir.localdomain
+hostmaster          blaahaj/admin@maildir.localdomain
+security            blaahaj/admin@maildir.localdomain
+abuse               blaahaj/admin@maildir.localdomain
+labs                blaahaj/main@maildir.localdomain

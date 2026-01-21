@@ -1,0 +1,4 @@
+postmaster          shonk/admin@maildir.localdomain
+hostmaster          shonk/admin@maildir.localdomain
+security            shonk/admin@maildir.localdomain
+abuse               shonk/admin@maildir.localdomain

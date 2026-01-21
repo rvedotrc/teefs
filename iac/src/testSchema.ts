@@ -1,5 +1,5 @@
 import * as s from "effect/Schema";
-import * as models from "./hetzner/hetznerModels.js";
+import * as models from "./hetzner/model/networking.js";
 import { protoSafeParse } from "@blaahaj/json";
 import { cliMap } from "./hetzner/hcloud.js";
 
@@ -7,7 +7,7 @@ const modelName = process.argv[2];
 if (!modelName) {
   for (const [cliName, modelName] of Object.entries(cliMap)) {
     console.log(
-      `hcloud ${cliName} list --output=json | node dist/testSchema.js ${modelName}`
+      `hcloud ${cliName} list --output=json | node dist/testSchema.js ${modelName}`,
     );
   }
   process.exit(0);
